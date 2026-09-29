@@ -150,12 +150,12 @@ while another is broken or busy.
   it needs no key],
   [*Language*], [Python with uv, which pins exact versions so the same code installs the same way
   later],
-  [*Feature store*], [Parquet files partitioned by month — small, no server to run, and training
-  and serving read the same files],
+  [*Feature store*], [Hopsworks free tier, which the module suggests — it stores the features
+  once so training and serving read the same definition, instead of me writing that myself],
   [*Model*], [scikit-learn gradient boosting, the standard choice for table-shaped data and easy
   to retrain],
-  [*Experiment tracking*], [MLflow, so I can compare training runs instead of trusting the last
-  number I saw],
+  [*Experiment tracking*], [Weights & Biases, so I can compare training runs instead of trusting
+  the last number I saw — and because I have used it before],
   [*Orchestration*], [GitHub Actions on a schedule — it is already where the code lives, so there
   is no second system],
   [*Serving*], [FastAPI in a Docker container on Google Cloud Run, which scales to zero so it

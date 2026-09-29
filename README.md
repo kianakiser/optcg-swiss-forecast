@@ -34,6 +34,20 @@ Tournament results come from [Limitless TCG](https://play.limitlesstcg.com) thro
 JSON API. No login, no scraping. New tournaments appear there as they finish, so the data keeps
 arriving rather than sitting in a file.
 
+## Planned tools
+
+Everything here is either named in the module or the obvious default, on purpose — the point of
+the course is the pipeline, not collecting unusual tools.
+
+| | |
+|---|---|
+| Feature store | Hopsworks (free tier) |
+| Experiment tracking | Weights & Biases |
+| Orchestration | GitHub Actions, on a schedule |
+| Model | scikit-learn gradient boosting |
+| Serving | FastAPI in Docker, on Google Cloud Run |
+| Tests / CI | pytest and ruff, on every push |
+
 ## Planned structure
 
 The course calls this the FTI architecture: three pipelines that do not call each other.
