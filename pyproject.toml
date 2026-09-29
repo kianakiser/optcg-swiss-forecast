@@ -1,0 +1,9 @@
+[project]
+name = "optcg-swiss-forecast"
+version = "0.1.0"
+description = "Predicting One Piece Card Game swiss match outcomes"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = []

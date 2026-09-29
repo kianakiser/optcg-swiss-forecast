@@ -1,0 +1,22 @@
+# Secrets — never commit these, not even once. Git remembers.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+service-account*.json
+
+# Data and models. The course rule is that neither belongs in git: they are big,
+# they change constantly, and they can be rebuilt from the source.
+/data/
+/models/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# macOS
+.DS_Store
