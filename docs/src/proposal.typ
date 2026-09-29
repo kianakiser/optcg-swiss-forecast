@@ -1,11 +1,6 @@
 // MS1 Project Proposal — MLOps HS26 (I.BA_MLOPS) · due 2026-10-01, 23:59
 // Build:  typst compile docs/src/proposal.typ docs/proposal.pdf
-//
-// Max 2 pages. Four headings, each graded as its own criterion.
-// Section 2 is deliberately left for Kiana: "why this problem, and why YOU" is not
-// something anyone else can write, and the oral exam asks exactly that.
-
-#let TODO(body) = text(fill: rgb("#c2352b"), weight: "semibold")[[#body]]
+// Max 2 pages, four headings.
 
 #set page(
   paper: "a4",
@@ -58,11 +53,11 @@ which is the squared difference between what the model said and what happened, a
 matches. Lower is better. Always answering 0.5 gives exactly 0.25, so that is my floor. I have two
 targets:
 
-- Get to *0.245 or better*. That is only a small improvement on the 0.25 a coin flip scores, on
-  purpose: these matches are close to even, and I would rather set a target I can be held to.
-- Beat a simple lookup table that just reports how often leader A has beaten leader B in the past.
-  If the model cannot beat that, then the machine learning part is not adding anything and I
-  should say so rather than hide it.
+- Get to *0.24 or better*. That is what a model scores if it says 60/40 and is right 60% of the
+  time, so it is a number I can explain rather than one I picked.
+- Beat a simple lookup table that just reports how often leader A has beaten leader B in the
+  past, on the same split. If the model cannot beat that, the machine learning is not adding
+  anything and I should say so rather than hide it.
 
 I only use matches with a recorded winner. Draws and unfinished matches are left out, so the
 prediction is really "who wins, given that someone did".
@@ -108,7 +103,8 @@ waste requests. The model will *retrain once a week*, because a week adds well u
 new data and a model retrained on that much more data is not going to be different.
 
 *How big it is.* About 68,000 matches from 252 tournaments between September 2024 and September
-2026, growing by roughly 590 matches a week.
+2026, growing by roughly 590 matches a week — collected so far by a script I run for my personal
+project, outside this repo. Backfilling them is the first job of the feature pipeline.
 
 *Features I plan to use.* All of them are things that are known before the match starts, and all
 are worked out only from tournaments that finished earlier:
@@ -119,9 +115,13 @@ are worked out only from tournaments that finished earlier:
 - How much history is actually behind each of those numbers, so the model can tell a well-known
   matchup from a guess.
 
+As a check on the deck-versus-player question, I train one model on the leaders alone and one
+that also sees the two players' histories, and compare their Brier scores.
+
 *The label.* The winner as the site records it. It is the result of a game between two people, so
-there is no way to work it out from the inputs. The first listed player wins about 50.2% of the
-time, so there is no lazy answer like "always pick the first one".
+there is no way to work it out from the inputs. The first of the two players as the site lists
+them wins about 50.2% of the time, so there is no lazy answer like "always pick the first one",
+and no rare-class problem to handle either.
 
 *Things I have to be careful about.* Results of the tournament I am predicting must never be used
 as an input, so fields like final placing are thrown away as soon as the data arrives. And when I
@@ -146,7 +146,8 @@ while another is broken or busy.
 *Tech stack,* with why I picked each one.
 
 #table(
-  columns: (7em, 1fr),
+  columns: (auto, 1fr),
+  column-gutter: 8pt,
   stroke: none,
   inset: (x: 0pt, y: 2.2pt),
   [*Data source*], [Limitless TCG public JSON API — it is the only place these results exist, and
