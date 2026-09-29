@@ -44,8 +44,9 @@ inputs are the two leader cards, which is the card that defines a deck, and opti
 players' results at earlier tournaments.
 
 *Horizon and scope.* One match. The prediction is made when the round's pairings are published
-and the answer is known when that match finishes, so the horizon is *about 30 to 50 minutes
-ahead* — swiss rounds have a 30 or 35 minute time limit. The scope is swiss rounds at tournaments
+and the answer is known when that match ends, so the horizon is *under an hour* — the official
+tournament rules give swiss matches a 30 or 35 minute limit depending on the event, plus 5 minutes
+of extra turns. The scope is swiss rounds at tournaments
 with *32 or more players* listed on Limitless TCG, from *September 2024 onwards*. Top cut, byes
 and unfinished matches are not included.
 
@@ -57,7 +58,8 @@ which is the squared difference between what the model said and what happened, a
 matches. Lower is better. Always answering 0.5 gives exactly 0.25, so that is my floor. I have two
 targets:
 
-- Beat 0.25, which is what a coin flip scores.
+- Get to *0.245 or better*. That is only a small improvement on the 0.25 a coin flip scores, on
+  purpose: these matches are close to even, and I would rather set a target I can be held to.
 - Beat a simple lookup table that just reports how often leader A has beaten leader B in the past.
   If the model cannot beat that, then the machine learning part is not adding anything and I
   should say so rather than hide it.
@@ -86,23 +88,24 @@ result comes from the deck and how much from the player, I get an answer instead
 mlops-lab.ch has fifteen FS26 projects and none of them is a game or a card game. The KTH ID2223
 2026 list does have match predictors, including chess, NHL and football, so predicting who wins a
 match is not new and I am not going to claim it is. What is different is the structure of the
-problem. In chess both players use the same equipment, so the only thing that varies is skill. In
-my case there are two different decks piloted by two people of different skill, and the usual
-statistic mixes the two together. That mixing is the thing I am trying to pull apart.
+problem. Chess has no deck: both players start from the same position, so there is nothing to
+attribute a result to except the players. In my case there are two different decks piloted by two
+people of different skill, and the usual statistic mixes the two together. That mixing is the thing I am trying to pull apart.
 
 = 3 Data source & features
 
 *Where the data comes from, and why it is live.* Tournament results come from Limitless TCG
 (play.limitlesstcg.com) through its public JSON API. No login and no scraping. New tournaments are
-uploaded there continuously as they finish, so this is not a file I download once. Every run asks
-the site what is new. While writing this there were already tournaments in their list that were
+uploaded there continuously as they finish, so this is not a file I download once. Each run will
+ask the site what is new. While writing this there were already tournaments in their list that were
 not yet in my copy, the newest one a day old.
 
-*How often it updates.* My pipeline fetches new tournaments *once a day, at 06:07 UTC*. Daily
-rather than hourly because only about one tournament every two days appears, and a finished
-tournament never changes, so checking more often would just waste requests. I plan to *retrain the
-model once a week*, because a week adds well under one percent of new data and a model retrained
-on that much more data is not going to be different.
+*How often it updates.* I already collect these results daily for my personal project, which is
+where the two years of history come from. For this project the feature pipeline will fetch new
+tournaments *once a day, at 06:07 UTC*. Daily rather than hourly because only about one tournament
+every two days appears, and a finished tournament never changes, so checking more often would just
+waste requests. The model will *retrain once a week*, because a week adds well under one percent of
+new data and a model retrained on that much more data is not going to be different.
 
 *How big it is.* About 68,000 matches from 252 tournaments between September 2024 and September
 2026, growing by roughly 590 matches a week.
@@ -125,7 +128,7 @@ as an input, so fields like final placing are thrown away as soon as the data ar
 split the data for testing I split it *by date*, not randomly, so the model is never tested on a
 match it could have learned from.
 
-= 4 System design & setup
+= 4 System design
 
 #figure(
   image("architecture.png", width: 97%),
@@ -150,8 +153,8 @@ while another is broken or busy.
   it needs no key],
   [*Language*], [Python with uv, which pins exact versions so the same code installs the same way
   later],
-  [*Feature store*], [Hopsworks free tier, which the module suggests — it stores the features
-  once so training and serving read the same definition, instead of me writing that myself],
+  [*Feature store*], [Hopsworks free tier, which the module suggests — it is built for keeping
+  training and serving reading the same features, which is work I would otherwise do myself],
   [*Model*], [scikit-learn gradient boosting, the standard choice for table-shaped data and easy
   to retrain],
   [*Experiment tracking*], [Weights & Biases, so I can compare training runs instead of trusting
@@ -159,7 +162,7 @@ while another is broken or busy.
   [*Orchestration*], [GitHub Actions on a schedule — it is already where the code lives, so there
   is no second system],
   [*Serving*], [FastAPI in a Docker container on Google Cloud Run, which scales to zero so it
-  costs nothing when nobody uses it],
+  costs almost nothing when nobody is using it],
   [*Tests / CI*], [pytest and ruff on every push, so I find out immediately when I break
   something],
 )
