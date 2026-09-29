@@ -43,6 +43,12 @@ pairings I want to predict the probability that the first of the two listed play
 inputs are the two leader cards, which is the card that defines a deck, and optionally the two
 players' results at earlier tournaments.
 
+*Horizon and scope.* One match. The prediction is made when the round's pairings are published
+and the answer is known when that match finishes, so the horizon is *about 30 to 50 minutes
+ahead* — swiss rounds have a 30 or 35 minute time limit. The scope is swiss rounds at tournaments
+with *32 or more players* listed on Limitless TCG, from *September 2024 onwards*. Top cut, byes
+and unfinished matches are not included.
+
 *Who it is for.* Players deciding what deck to bring, and people who want to know whether a deck
 is actually strong or whether it just gets played by strong players.
 
@@ -134,24 +140,32 @@ on data it has not seen, and saves it if it is good enough. The *inference pipel
 saved model and answers questions through a small web page. They are separate so that one can run
 while another is broken or busy.
 
-*Tech stack.*
+*Tech stack,* with why I picked each one.
 
 #table(
-  columns: (auto, 1fr),
+  columns: (7em, 1fr),
   stroke: none,
-  inset: (x: 0pt, y: 2pt),
-  [*Data source*], [Limitless TCG public JSON API],
-  [*Language / setup*], [Python, with uv for exact dependency versions],
-  [*Feature store*], [Parquet files, versioned and partitioned by month],
-  [*Model*], [scikit-learn gradient boosting, a standard model for tabular data],
-  [*Model registry*], [saved model versions plus a pointer saying which one is live],
-  [*Orchestration*], [GitHub Actions on a schedule],
-  [*Serving*], [FastAPI in a Docker container on Google Cloud Run],
-  [*Tests / CI*], [pytest and ruff, run automatically on every push],
+  inset: (x: 0pt, y: 2.2pt),
+  [*Data source*], [Limitless TCG public JSON API — it is the only place these results exist, and
+  it needs no key],
+  [*Language*], [Python with uv, which pins exact versions so the same code installs the same way
+  later],
+  [*Feature store*], [Parquet files partitioned by month — small, no server to run, and training
+  and serving read the same files],
+  [*Model*], [scikit-learn gradient boosting, the standard choice for table-shaped data and easy
+  to retrain],
+  [*Experiment tracking*], [MLflow, so I can compare training runs instead of trusting the last
+  number I saw],
+  [*Orchestration*], [GitHub Actions on a schedule — it is already where the code lives, so there
+  is no second system],
+  [*Serving*], [FastAPI in a Docker container on Google Cloud Run, which scales to zero so it
+  costs nothing when nobody uses it],
+  [*Tests / CI*], [pytest and ruff on every push, so I find out immediately when I break
+  something],
 )
 
-*What I still have to decide.* Whether to use a hosted experiment tracker such as MLflow or
-Weights & Biases, or keep writing each training run's results to a file next to the model. I also
-have not built the part that checks predictions against real results afterwards.
+*Optional, only if the core works first.* Monitoring for drift when new cards are released,
+scoring past predictions against what actually happened, and a dashboard. These are stretch
+layers. The three FTI pipelines come first.
 
-Repository: #link("https://github.com/kianakiser/optcg-swiss-forecast")[github.com/kianakiser/optcg-swiss-forecast]
+*The repository is public:* #link("https://github.com/kianakiser/optcg-swiss-forecast")[github.com/kianakiser/optcg-swiss-forecast]
