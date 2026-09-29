@@ -66,10 +66,10 @@ Separating those two is the actual problem.
 
 = 2 Originality & motivation
 
-*Why me.* I did not go looking for a dataset to fit this assignment. I already collect One Piece
+*Why me.* I have been playing One Piece for about a year and I play in tournaments, so this is a
+question I actually have rather than one I picked to fit an assignment. I also already collect
 tournament results for a personal side project, which means I start with about two years of match
-history instead of a few weeks, and I have already tried out parts of the pipeline. I also play
-the game, so I care about the answer.
+history instead of the few weeks I would have if I began collecting now.
 
 *Why this problem.* I want to know whether a deck is good or whether it only looks good because
 strong players are the ones playing it. That question bothers me every time I read a win-rate
