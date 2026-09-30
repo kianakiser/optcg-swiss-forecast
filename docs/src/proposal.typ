@@ -4,18 +4,24 @@
 
 #set page(
   paper: "a4",
-  margin: (x: 1.7cm, y: 1.5cm),
+  margin: (x: 2.05cm, y: 1.55cm),
   footer: context [
     #set text(7.5pt, fill: luma(120))
     #h(1fr) #counter(page).display("1 / 1", both: true)
   ],
 )
 #set text(font: ("Helvetica Neue", "Helvetica", "Arial"), size: 9pt)
-#set par(justify: true, leading: 0.58em)
-#show heading.where(level: 1): it => block(above: 0.75em, below: 0.4em)[
-  #set text(10.5pt, weight: "bold")
+// leading is the gap between lines; spacing is the gap between paragraphs. The document read
+// as a wall of text because the second was barely larger than the first.
+#set par(justify: true, leading: 0.63em, spacing: 1.08em)
+// A hairline above each section, so the four graded headings are findable at a glance.
+#show heading.where(level: 1): it => block(above: 1.25em, below: 0.5em)[
+  #line(length: 100%, stroke: 0.4pt + luma(205))
+  #v(0.38em)
+  #set text(11.5pt, weight: "bold")
   #it.body
 ]
+#set list(spacing: 0.7em, indent: 0.6em)
 
 #block[
   #set text(14pt, weight: "bold")
@@ -131,7 +137,7 @@ match it could have learned from.
 = 4 System design
 
 #figure(
-  image("architecture.png", width: 97%),
+  image("architecture.png", width: 84%),
   caption: [The three FTI pipelines. They do not call each other; they meet at the feature store
   and the model registry.],
 )
@@ -147,9 +153,9 @@ while another is broken or busy.
 
 #table(
   columns: (auto, 1fr),
-  column-gutter: 8pt,
+  column-gutter: 10pt,
   stroke: none,
-  inset: (x: 0pt, y: 2.2pt),
+  inset: (x: 0pt, y: 3.1pt),
   [*Data source*], [Limitless TCG public JSON API — it is the only place these results exist, and
   it needs no key],
   [*Language*], [Python with uv, which pins exact versions so the same code installs the same way
