@@ -92,16 +92,19 @@ experiments are optional, after the core works reliably.
 
 ## Proposal files
 
-- [`docs/proposal.pdf`](docs/proposal.pdf): current two-page proposal.
-- [`docs/src/proposal.typ`](docs/src/proposal.typ): editable Typst source.
+- [`docs/proposal.pdf`](docs/proposal.pdf): current two-page PDF exported from the editable Google Doc.
+- [`docs/src/proposal.typ`](docs/src/proposal.typ): matching proposal text in Typst; its rendered spacing may differ.
 - [`docs/src/architecture.svg`](docs/src/architecture.svg): editable diagram source.
 
-To rebuild the PDF with [Typst](https://typst.app):
+The [editable Google Doc](https://docs.google.com/document/d/16V8yJXAAz7TQf7Jd8lgIvCZbn6qMrVYod0yi1b4yUc0)
+is the current editing master. Export it as PDF to preserve its exact layout.
+
+To render an alternative PDF with [Typst](https://typst.app):
 
 ```sh
-typst compile docs/src/proposal.typ docs/proposal.pdf
+typst compile docs/src/proposal.typ /tmp/optcg-proposal-typst.pdf
 ```
 
-The PDF and Typst source reflect the revised editable proposal as of 1 October
+The PDF and Typst text reflect the revised editable proposal as of 1 October
 2026. Later Google Doc edits must be synchronised explicitly; there is no automatic
 Drive-to-GitHub sync. Previously submitted coursework remains a separate archive.

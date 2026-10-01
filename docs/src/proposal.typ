@@ -1,5 +1,7 @@
-// MS1 proposal. Build from the repository root:
-// typst compile docs/src/proposal.typ docs/proposal.pdf
+// MS1 proposal. The repository PDF layout is exported from the editable Google Doc.
+// This source mirrors its wording; the Typst rendering may differ in spacing.
+// Build a local alternative from the repository root:
+// typst compile docs/src/proposal.typ /tmp/optcg-proposal-typst.pdf
 
 #set page(paper: "a4", margin: (x: 1.65cm, top: 1.45cm, bottom: 1.35cm))
 #set text(font: "Arial", size: 10pt)
@@ -39,9 +41,9 @@
 
 = 3 Data source and features
 
-*Source and updates.* Limitless TCG publishes tournament results through a public JSON API. It requires no login and does not need scraping. My personal collection has about 68,000 decided Swiss matches from 252 tournaments between September 2024 and September 2026. Recent growth is about 590 matches a week. The new course pipeline will backfill that history, then check for finished tournaments daily. I plan to retrain weekly and will confirm the terms for ongoing API use with Limitless.
+*Source and updates:* Limitless TCG publishes tournament results through a public JSON API. It requires no login and does not need scraping. My personal collection has about 68,000 decided Swiss matches from 252 tournaments between September 2024 and September 2026. Recent growth is about 590 matches a week. The new course pipeline will backfill that history, then check for finished tournaments daily. I plan to retrain weekly and will confirm the terms for ongoing API use with Limitless.
 
-*Features.* The two Leader IDs are known before play. Historical features use only tournaments from earlier dates:
+*Features:* The two Leader IDs are known before play. Historical features use only tournaments from earlier dates:
 
 - Each Leader's earlier win rate and the number of matches behind it.
 - The earlier win rate for this exact Leader pairing and its sample size.
@@ -54,7 +56,7 @@
 
 #figure(
   image("architecture.png", width: 90%),
-  caption: [The feature, training and inference pipelines share a feature store and model registry.],
+  caption: [The feature, training and inference pipelines share a feature store and model registry],
 )
 
 *Core workflow:* The daily feature pipeline will collect results, calculate historical rates and save them. The weekly training pipeline will train a scikit-learn gradient boosting model, test it on later tournaments and register a model version with its scores. When a player asks, the inference pipeline will load the selected model and current matchup features, then return a probability, recent win rates and match counts. I will also log failed jobs, the deployed model version and changes in Leader usage. The pipelines run separately through shared storage.
