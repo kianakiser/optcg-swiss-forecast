@@ -37,7 +37,7 @@
 
 *Why I chose this:* I have played One Piece for about a year and compete in tournaments. I already collect results for a personal side project, so I have roughly two years of history to start from. I want a clearer view of matchups than a single overall win rate gives me. Different deck builds, card interactions, player decisions and luck make this uncertain, which is why I want to estimate probabilities rather than promise a winner.
 
-*What is different:* My project focuses on One Piece Leader matchups in a changing card pool. New cards can change the decks played under an existing Leader, giving the system a practical reason to collect new results and retrain.
+*What is different:* I checked #link("https://mlops-lab.ch/semesters/fs26.html")[past HSLU MLOps projects] and the linked #link("https://id2223kth.github.io/assignments/2026/ID2223Projects2026.html")[KTH examples]. They include sports and chess predictions, so predicting a winner is not new. My project applies this to One Piece Leader matchups. New cards can change the decks played under the same Leader, making fresh results and regular retraining important.
 
 = 3 Data source and features
 
