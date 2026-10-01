@@ -37,7 +37,7 @@
 
 *Why I chose this:* I have played One Piece for about a year and compete in tournaments. I already collect results for a personal side project, so I have roughly two years of history to start from. I want a clearer view of matchups than a single overall win rate gives me. Different deck builds, card interactions, player decisions and luck make this uncertain, which is why I want to estimate probabilities rather than promise a winner.
 
-*What is different:* I checked the HSLU projects on mlops-lab.ch and the KTH ID2223 2026 list. The HSLU FS26 list has no card game project; KTH includes chess, NHL and football match predictors. My project focuses on One Piece Leader matchups in a changing card pool. New cards can change the decks played under an existing Leader, giving the system a practical reason to collect new results and retrain.
+*What is different:* My project focuses on One Piece Leader matchups in a changing card pool. New cards can change the decks played under an existing Leader, giving the system a practical reason to collect new results and retrain.
 
 = 3 Data source and features
 
@@ -63,4 +63,4 @@
 
 *Tools:* Hopsworks will store features for training and prediction. Weights & Biases will track training runs and keep model versions in its registry. Both appear in the module materials. GitHub Actions will schedule jobs and tests. FastAPI will provide the prediction endpoint, packaged with Docker and hosted on Google Cloud Run. Python and scikit-learn keep modelling manageable; pytest checks the calculations, and uv pins dependencies so the environment can be reproduced.
 
-*Optional work:* If the core pipelines work reliably, I may test whether full decklists improve predictions where both submitted lists are available. A more detailed monitoring dashboard is optional. The repository is public: #link("https://github.com/kianakiser/optcg-swiss-forecast")[github.com/kianakiser/optcg-swiss-forecast].
+*Optional work:* If the core pipelines work reliably, I may test whether full decklists improve predictions where both submitted lists are available. A more detailed monitoring dashboard is optional.
