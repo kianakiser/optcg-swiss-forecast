@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="540" viewBox="0 0 1260 540">
+<rect width="1260" height="540" fill="white"/>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#303030"/></marker></defs>
+<g font-family="Arial, sans-serif" fill="#222" text-anchor="middle">
+<g fill="#666" font-size="15" font-style="italic"><text x="305" y="49">daily plus historical backfill</text><text x="575" y="49">weekly</text><text x="845" y="49">when a player asks</text></g>
+<g stroke="#777" stroke-width="2" fill="white"><rect x="15" y="85" width="160" height="100" rx="9"/><rect x="1100" y="85" width="145" height="100" rx="9"/></g>
+<g stroke="#4a6fa5" stroke-width="2" fill="#eef2f7"><rect x="200" y="85" width="210" height="100" rx="9"/><rect x="470" y="85" width="210" height="100" rx="9"/><rect x="740" y="85" width="210" height="100" rx="9"/></g>
+<g stroke="#b08945" stroke-width="2" fill="#f6f0e8"><rect x="315" y="315" width="230" height="90" rx="9"/><rect x="645" y="315" width="230" height="90" rx="9"/></g>
+<g font-size="19" font-weight="bold"><text x="95" y="123">Limitless TCG</text><text x="305" y="123">1 Feature pipeline</text><text x="575" y="123">2 Training pipeline</text><text x="845" y="123">3 Inference pipeline</text><text x="1172" y="123">Web page</text><text x="430" y="350">Feature store</text><text x="760" y="350">Model registry</text></g>
+<g font-size="15" fill="#666"><text x="95" y="156">match results</text><text x="305" y="156">collect and calculate</text><text x="575" y="156">learn and evaluate</text><text x="845" y="156">load model and predict</text><text x="1172" y="156">Leader insights</text><text x="430" y="380">Hopsworks</text><text x="760" y="380">W&amp;B model versions</text></g>
+</g>
+<g fill="none" stroke="#303030" stroke-width="1.7" marker-end="url(#arrow)">
+<path d="M175 135 H200"/><path d="M950 135 H1100"/>
+<path d="M305 185 L385 315"/><path d="M480 315 L555 185"/>
+<path d="M595 185 L700 315"/><path d="M810 315 L840 185"/>
+<path d="M430 405 V475 H920 V185"/>
+</g>
+<g font-family="Arial, sans-serif" font-size="15" fill="#666" text-anchor="middle"><text x="270" y="255">write features</text><text x="435" y="247">read features</text><text x="693" y="247">save model</text><text x="890" y="260">load model</text><rect x="543" y="459" width="249" height="28" fill="white"/><text x="668" y="480">read current matchup features</text></g>
+</svg>
