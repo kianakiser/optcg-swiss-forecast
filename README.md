@@ -43,6 +43,8 @@ The [5 November manual cloud check](https://github.com/kianakiser/optcg-swiss-fo
 Its last lines report the row count after reading the saved table back.
 The public log can be read without a Hopsworks account.
 
+On 5 November, a temporary macOS calendar timer automatically started the [GitHub cloud job](https://github.com/kianakiser/optcg-swiss-forecast/actions/runs/42116342596). The job reported 35 tournaments awaiting review, saved a source snapshot and verified all 1,290 stored rows. [Timing and trigger evidence](docs/MS2_SCHEDULE_EVIDENCE.md).
+
 The [two-page summary](docs/ms2_summary.pdf) and its
 [editable draft](docs/MS2_REVIEW_DRAFT.md) record achievements and every feedback
 response. The [feature walkthrough](docs/FEATURE_WALKTHROUGH.md) follows one real match. The [API access question](docs/API_ACCESS_DRAFT.md) received a support reply on 4 November confirming the proposed request rate was acceptable. Storage and attribution were not specifically addressed.
