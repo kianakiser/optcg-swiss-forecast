@@ -10,6 +10,7 @@ service-account*.json
 # they change constantly, and they can be rebuilt from the source.
 /data/
 /models/
+/mlruns/
 
 # Python
 __pycache__/

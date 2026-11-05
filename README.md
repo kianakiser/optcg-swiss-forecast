@@ -28,27 +28,118 @@ the eventual system will keep collecting data and retraining.
 
 ## Current status
 
-Week 3: proposal and documentation only. No coursework feature, training or
-inference pipeline has been implemented in this repository. The architecture
-below describes the planned system, not a deployed service.
+4 November 2026: the local MS2 draft implements checked-event backfill, daily
+refresh and candidate discovery, earlier-history features, source snapshots and
+verified Hopsworks storage. The current local backfill contains 1,290 matches from
+eight checked events between June and September 2025. Docker reproduced that table
+exactly without network access. A live daily run starting with an empty local
+data folder saved and read back all 1,290 rows in `match_features_draft` v1. It
+restored the existing history and 30 candidates awaiting review. A separate check
+also recovered the new saved review list. GitHub Actions files are prepared locally.
+These changes are **uncommitted**; CI and the daily schedule are not active.
+The dataset is a small demonstration, not a complete historical training set.
+
+The [two-page summary](docs/ms2_summary.pdf) and its
+[editable draft](docs/MS2_REVIEW_DRAFT.md) record achievements and every feedback
+response. Review them alongside the [feature walkthrough](docs/FEATURE_WALKTHROUGH.md)
+before publishing. The [API access question](docs/API_ACCESS_DRAFT.md) received a support reply on 4 November confirming the proposed request rate was acceptable. Storage and attribution were not specifically addressed.
 
 | Milestone | Due | Status |
 |---|---|---|
 | MS1: Proposal | 2026-10-01 | Proposal in [`docs/proposal.pdf`](docs/proposal.pdf) |
-| MS2: Feature pipeline | 2026-11-05 | Not started |
+| MS2: Feature pipeline | 2026-11-05 | Local pipeline/storage verified; review, broader data checks and delivery remain |
 | MS3: Training pipeline | 2026-12-03 | Not started |
 | MS4: Live system | 2027-01-10 | Not started |
 
-Implementation will follow the weekly module tasks. Later tools listed here are
-planned choices, not claims that their setup has already been completed. A personal
-data collection exists outside this coursework repository; it is not the MS2
-feature pipeline.
+Implementation follows the module milestones. A separate personal data collection
+supplied the initial example; the coursework pipeline is implemented here.
+
+## Run the feature pipeline
+
+Install the locked dependencies with `uv sync --locked`. Supported Python is
+3.12 through 3.14; the container and CI use 3.12. Run the checks with
+`uv run --locked pytest -q`. All 92 tests pass on local Python 3.14 and on Linux
+AMD64 Python 3.12, using the same commands planned for CI.
+
+```sh
+uv run --locked src/optcg/features/run.py --mode backfill
+uv run --locked src/optcg/features/run.py --mode daily
+uv run --locked src/optcg/features/run.py --mode daily --publish
+```
+
+`backfill` processes the events in `config/approved_events.json`, reusing cached
+sources when available. `daily` downloads those events again and checks the latest
+100 entries on the completed-event listing for new IDs. New IDs go to
+`data/pending_events.json` for eligibility review. They are **not automatically
+admitted**: completion, individual Standard format, participant count and Swiss
+structure must be checked before adding an event and its evidence to the config.
+The current config approves eight checked events. This is a bounded example;
+it does not cover all eligible historical tournaments.
+
+Both modes calculate the same features and save local history, features and dated
+source snapshots under ignored `data/`. Each snapshot records fetch times, source
+fields needed for the joins, eligibility evidence and exclusions. Player IDs are
+retained privately for joins; player names, countries and full decklists are not
+retained in the saved standings. These are minimized snapshots, not full API dumps.
+
+`--publish` restores match history from Hopsworks, archives the new source snapshot
+in project `Resources`, writes `match_features_draft` v1 and reads back every row
+to check keys, labels and values. It asks for a hidden API key or accepts
+`HOPSWORKS_API_KEY`. `.env.example` lists the variable; `.env` files are not loaded
+automatically. Never commit a key or source data.
+
+Published daily runs also restore the pending review list from Hopsworks Resources,
+merge it with local and newly discovered IDs, and remove approved events. A separate
+dated checkpoint keeps older candidates available when they leave the latest page.
+Both the older source-snapshot recovery and the new checkpoint recovery have been
+verified against Hopsworks, alongside the automated tests.
+Discovery is not a complete historical crawl.
+
+The earlier CSV commands remain available for a small isolated example:
+
+```sh
+uv run --locked src/optcg/features/prepare.py data/smoke_matches/*.csv --output data/features/smoke.csv
+uv run --locked src/optcg/features/store.py data/smoke_matches/*.csv
+```
+
+`store.py` writes the separate `match_features_smoke` group. The pipeline's draft
+group leaves that original storage check separate. For a new checkout, `run.py`
+downloads the eight configured public events without requiring private CSVs.
+
+The [feature walkthrough](docs/FEATURE_WALKTHROUGH.md) traces one real row. The
+archive does not prove when old results first became available, so a correct
+date-based calculation alone cannot establish a faithful historical replay.
+
+## Container and scheduled run draft
+
+```sh
+docker build --platform linux/amd64 -t optcg-features .
+docker run --rm --platform linux/amd64 optcg-features --help
+```
+
+Linux AMD64 is required by the installed Hopsworks Delta client's wheel support.
+The container runs as a non-root user and includes code/config, not local data or
+credentials. CI drafts install the lockfile, run tests and build/check this image.
+The Linux AMD64 image built successfully. Its help command and an offline cached
+backfill both passed. All 1,290 output rows matched the local calculation exactly.
+This checks execution in the container, not cloud publishing or the GitHub runner.
+
+`.github/workflows/features.yml` drafts a daily 21:17 UTC run with overlap
+protection and a 30-minute timeout. Before activation, review API-use terms, add a
+private `HOPSWORKS_API_KEY` repository secret and set the repository variable
+`ENABLE_DAILY_FEATURES=true`. Manual dispatch also requires the secret. No workflow
+has been published or run on GitHub for this draft. Local private credentials work;
+the repository secret still needs configuration after review. The current local
+key expires on 11 November, so continued operation requires renewal before then.
+
+Use [the review checklist](docs/REVIEW_BEFORE_PUBLISHING.md) before approving
+publication. It covers what to understand and the remaining release checks.
 
 ## Data and evaluation plan
 
 Results come from [Limitless TCG](https://play.limitlesstcg.com) through its public
-JSON API. The planned feature pipeline will backfill historical results and check
-for finished tournaments daily. Terms for ongoing API use will be confirmed.
+JSON API. The local draft backfills approved events and discovers candidates for review.
+Broader historical coverage and ongoing API-use confirmation remain open.
 
 Inputs will include the two Leader IDs, earlier Leader win rates, the earlier rate
 for the exact pairing, and each Leader's preceding 28-day win rate. Every rate will
@@ -60,7 +151,7 @@ will be evaluated on later tournaments, using Brier score. The target is below
 0.25 and better than a historical Leader-matchup lookup on the same test matches.
 Whether ML improves on the baseline has not yet been tested.
 
-## Planned tools
+## Tools and planned roles
 
 | Tool | Planned role and reason |
 |---|---|

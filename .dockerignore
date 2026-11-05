@@ -1,0 +1,14 @@
+# Only code, locked dependencies and non-secret settings enter the image.
+*
+!pyproject.toml
+!uv.lock
+!src/
+!src/**
+!config/
+!config/**
+**/__pycache__/
+**/*.pyc
+**/.env
+**/.env.*
+**/*.key
+**/*.pem
