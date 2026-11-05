@@ -14,7 +14,7 @@ Kiana Kiser | HS26 | I.BA_MLOPS | GitHub Repository: github.com/kianakiser/optcg
 
 **What the first comparison showed:** On a separate study sample of 1,689 matches from 17 tournaments in September 2025, I compared three ways to predict a winner. Guessing 50% scored 0.25000, using both Leaders’ overall records scored 0.24582, and adding their games against each other scored 0.24510. These are Brier losses: lower means the probabilities were closer to the results. I used this sample to choose my settings and kept July to September 2026 separate for a later check.
 
-**Where to start:** docs/FEATURE_WALKTHROUGH.md follows one match through the pipeline. src/optcg/features/compute.py contains the calculation. The README gives the run instructions. In GitHub Actions, “Checks” runs the tests and “Daily features” runs the scheduled collection. The Actions history shows which jobs actually ran.
+**Where to start:** docs/FEATURE_WALKTHROUGH.md follows one match through the pipeline. src/optcg/features/compute.py contains the calculation. The README gives the run instructions. In GitHub Actions, “Checks” runs the tests and “Daily features” runs the scheduled collection. The [manual cloud run](https://github.com/kianakiser/optcg-swiss-forecast/actions/runs/42111485827) verified all 1,290 saved rows.
 
 ## 2 Response to MS1 reviews
 
@@ -34,4 +34,4 @@ Status: **Partly**. In the Limitless tournament platform’s support channel, I 
 Status: **Changed**. In my planned design, players open a web page, choose two Leaders and see the estimated win chance, how many matches it’s based on and when the data was last updated. FastAPI will supply the numbers behind that page. Hopsworks stores one feature table for training and prediction. I plan to use W&B to compare training runs and track model versions because I already know it from the NLP module. The page and training come later. See docs/FEATURE_WALKTHROUGH.md.
 
 6. **A3 · List the dependencies and commit the locked versions**  
-Status: **Partly**. pyproject.toml lists the packages and uv.lock pins their versions. Docker reproduced the same table from the saved inputs. The remaining step for this review point is publishing the lockfile in the repository.
+Status: **Changed**. pyproject.toml lists the packages and uv.lock pins their versions. I published both files. GitHub installed those versions, ran the tests and built the Docker image. See the [Checks run](https://github.com/kianakiser/optcg-swiss-forecast/actions/runs/42111024175).

@@ -125,25 +125,20 @@ every key, label and feature value. The original smoke group still has 143 rows.
 These checks demonstrate the calculation and storage
 path; they do not establish predictive quality or complete historical coverage.
 
-## What Kiana should explain before publication
+## Follow the example
 
 Follow the second event's example row: where does its label come from, which
 matches support 63.2%, and why does the row not use its own result? Then explain
 why a discovered event needs approval, why the snapshot time differs from the
 event date, and how publishing restores history on a fresh runner.
 
-Docker, CI and the gated daily 21:17 UTC workflow are prepared locally. The
-schedule is inactive and changes remain uncommitted until review. Ongoing API-use
-confirmation and the GitHub repository secret still need resolution. The final
+The daily GitHub workflow is enabled at 21:17 UTC. The final
 July–September 2026 test remains unopened. `evaluate.py` implements the planned
 baseline comparison and has toy tests. A real command scored only the 70 matches
 from our 26 August 2025 smoke example, saving `data/evaluation/smoke_aug26`; it did
 not score the held-out period or change settings. All 92 tests pass on local
 Python 3.14 and Linux AMD64 Python 3.12. The Docker image built and reproduced all
 1,290 local rows exactly using cached sources, no network and no credentials.
-The approved replacement key is saved in macOS Keychain and works for local cloud
-runs. It expires on 11 November. No key value is in the repository or chat.
+The scheduled job receives its Hopsworks key through GitHub Actions secrets.
+This key expires on 11 November.
 W&B, model training and live predictions belong to later milestones.
-
-Use [the review checklist](REVIEW_BEFORE_PUBLISHING.md) to check your understanding
-and the remaining steps before publication.

@@ -2,7 +2,7 @@
 
 Sent as Kiana in the official Limitless Online **#support** channel on
 4 November 2026 at 20:53 (Europe/Zurich). **Reply received about the request rate.**
-Kiana authorized sending the message. Eskaven replied at 21:49 that the described
+Eskaven replied at 21:49 that the described
 use was within acceptable rate parameters. This is a response about request volume,
 not a separate statement of storage or attribution rules.
 
@@ -26,7 +26,6 @@ Eskaven replied on 4 November at 21:49 (Europe/Zurich):
 
 > This sounds well within acceptable rate parameters.
 
-Kiana supplied a screenshot of the exchange and replied herself at 22:00.
 The reply supports the proposed daily request rate. It does not specifically
 address retention or attribution. A4 remains Partly for that reason.
 The screenshot is retained in the private project evidence, outside Git.
@@ -38,7 +37,3 @@ key-free tournament access and response-header rate limits. It directs questions
 to the linked Limitless Discord channels. The [webhook guide](https://docs.limitlesstcg.com/developer/webhooks)
 offers completion notifications through an approved registration. Neither page
 is recorded here as individual confirmation of this project's ongoing use.
-
-A4 is a tutor request under "Should". The public developer guide does not state
-that every small project requires individual approval. Report the scope of the support reply and the documented API rules accurately.
-The GitHub schedule remains unpublished until Kiana understands and approves it.
