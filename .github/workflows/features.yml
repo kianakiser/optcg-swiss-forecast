@@ -5,8 +5,6 @@ on:
   schedule:
     # Daily run at 21:17 UTC.
     - cron: "17 21 * * *"
-    # Extra deadline-day slot in case the first schedule was registered too late.
-    - cron: "34 21 5 11 *"
 
 permissions:
   contents: read
