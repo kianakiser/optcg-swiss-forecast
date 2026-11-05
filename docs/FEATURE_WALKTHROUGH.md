@@ -142,3 +142,5 @@ Python 3.14 and Linux AMD64 Python 3.12. The Docker image built and reproduced a
 The scheduled job receives its Hopsworks key through GitHub Actions secrets.
 This key expires on 11 November.
 W&B, model training and live predictions belong to later milestones.
+
+On 5 November, a temporary macOS calendar timer automatically started the published daily job on GitHub. The job saved its source snapshot and verified all 1,290 Hopsworks rows. [See the trigger, times and run evidence](MS2_SCHEDULE_EVIDENCE.md).

@@ -14,7 +14,7 @@ Kiana Kiser | HS26 | I.BA_MLOPS | GitHub Repository: github.com/kianakiser/optcg
 
 **What the first comparison showed:** On a separate study sample of 1,689 matches from 17 tournaments in September 2025, I compared three ways to predict a winner. Guessing 50% scored 0.25000, using both Leaders’ overall records scored 0.24582, and adding their games against each other scored 0.24510. These are Brier losses: lower means the probabilities were closer to the results. I used this sample to choose my settings and kept July to September 2026 separate for a later check.
 
-**Where to start:** docs/FEATURE_WALKTHROUGH.md follows one match through the pipeline. src/optcg/features/compute.py contains the calculation. The README gives the run instructions. In GitHub Actions, “Checks” runs the tests and “Daily features” runs the scheduled collection. The [manual cloud run](https://github.com/kianakiser/optcg-swiss-forecast/actions/runs/42111485827) verified all 1,290 saved rows.
+**Where to start:** docs/FEATURE_WALKTHROUGH.md follows one match through the pipeline. src/optcg/features/compute.py contains the calculation. The README gives the run instructions. In GitHub Actions, “Checks” runs the tests and “Daily features” runs the scheduled collection. On 5 November, a macOS calendar timer started the [GitHub run](https://github.com/kianakiser/optcg-swiss-forecast/actions/runs/42116342596) that verified all 1,290 saved rows. See docs/MS2_SCHEDULE_EVIDENCE.md for the trigger and times.
 
 ## 2 Response to MS1 reviews
 
