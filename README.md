@@ -28,26 +28,29 @@ the eventual system will keep collecting data and retraining.
 
 ## Current status
 
-4 November 2026: the local MS2 draft implements checked-event backfill, daily
+5 November 2026: the MS2 pipeline implements checked-event backfill, daily
 refresh and candidate discovery, earlier-history features, source snapshots and
 verified Hopsworks storage. The current local backfill contains 1,290 matches from
 eight checked events between June and September 2025. Docker reproduced that table
 exactly without network access. A live daily run starting with an empty local
 data folder saved and read back all 1,290 rows in `match_features_draft` v1. It
 restored the existing history and 30 candidates awaiting review. A separate check
-also recovered the new saved review list. GitHub Actions files are prepared locally.
-These changes are **uncommitted**; CI and the daily schedule are not active.
+also recovered the new saved review list. The [GitHub CI run](https://github.com/kianakiser/optcg-swiss-forecast/actions/runs/42110953269) passed the tests and built and started Docker.
 The dataset is a small demonstration, not a complete historical training set.
+
+To verify collection, open [scheduled runs](https://github.com/kianakiser/optcg-swiss-forecast/actions/workflows/features.yml?query=event%3Aschedule), select a run and its `update` job, then open “Refresh checked events and store their features.”
+The [5 November manual cloud check](https://github.com/kianakiser/optcg-swiss-forecast/actions/runs/42111485827) also verified all 1,290 rows and preserved 34 tournaments awaiting review.
+Its last lines report the row count after reading the saved table back.
+The public log can be read without a Hopsworks account.
 
 The [two-page summary](docs/ms2_summary.pdf) and its
 [editable draft](docs/MS2_REVIEW_DRAFT.md) record achievements and every feedback
-response. Review them alongside the [feature walkthrough](docs/FEATURE_WALKTHROUGH.md)
-before publishing. The [API access question](docs/API_ACCESS_DRAFT.md) received a support reply on 4 November confirming the proposed request rate was acceptable. Storage and attribution were not specifically addressed.
+response. The [feature walkthrough](docs/FEATURE_WALKTHROUGH.md) follows one real match. The [API access question](docs/API_ACCESS_DRAFT.md) received a support reply on 4 November confirming the proposed request rate was acceptable. Storage and attribution were not specifically addressed.
 
 | Milestone | Due | Status |
 |---|---|---|
 | MS1: Proposal | 2026-10-01 | Proposal in [`docs/proposal.pdf`](docs/proposal.pdf) |
-| MS2: Feature pipeline | 2026-11-05 | Local pipeline/storage verified; review, broader data checks and delivery remain |
+| MS2: Feature pipeline | 2026-11-05 | Feature pipeline and cloud storage verified; see the run evidence above |
 | MS3: Training pipeline | 2026-12-03 | Not started |
 | MS4: Live system | 2027-01-10 | Not started |
 
@@ -110,7 +113,7 @@ The [feature walkthrough](docs/FEATURE_WALKTHROUGH.md) traces one real row. The
 archive does not prove when old results first became available, so a correct
 date-based calculation alone cannot establish a faithful historical replay.
 
-## Container and scheduled run draft
+## Container and scheduled run
 
 ```sh
 docker build --platform linux/amd64 -t optcg-features .
@@ -119,21 +122,16 @@ docker run --rm --platform linux/amd64 optcg-features --help
 
 Linux AMD64 is required by the installed Hopsworks Delta client's wheel support.
 The container runs as a non-root user and includes code/config, not local data or
-credentials. CI drafts install the lockfile, run tests and build/check this image.
+credentials. CI installs the locked packages, runs the tests and builds this image.
 The Linux AMD64 image built successfully. Its help command and an offline cached
 backfill both passed. All 1,290 output rows matched the local calculation exactly.
 This checks execution in the container, not cloud publishing or the GitHub runner.
 
-`.github/workflows/features.yml` drafts a daily 21:17 UTC run with overlap
-protection and a 30-minute timeout. Before activation, review API-use terms, add a
-private `HOPSWORKS_API_KEY` repository secret and set the repository variable
-`ENABLE_DAILY_FEATURES=true`. Manual dispatch also requires the secret. No workflow
-has been published or run on GitHub for this draft. Local private credentials work;
-the repository secret still needs configuration after review. The current local
-key expires on 11 November, so continued operation requires renewal before then.
-
-Use [the review checklist](docs/REVIEW_BEFORE_PUBLISHING.md) before approving
-publication. It covers what to understand and the remaining release checks.
+The daily GitHub workflow runs at 21:17 UTC with a 30-minute timeout.
+The repository variable `ENABLE_DAILY_FEATURES=true` enables scheduled collection.
+GitHub supplies `HOPSWORKS_API_KEY` from the repository’s Actions secrets.
+For a local backfill, follow the instructions above. It does not need a Hopsworks key.
+The cloud key used at MS2 expires on 11 November and must be renewed for later runs.
 
 ## Data and evaluation plan
 
